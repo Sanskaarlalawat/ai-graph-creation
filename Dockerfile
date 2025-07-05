@@ -1,11 +1,14 @@
-# Use official Nginx image
+# Use Nginx as the base image
 FROM nginx:alpine
 
-# Remove default nginx page
-RUN rm -rf /usr/share/nginx/html/*
-
-# Copy your HTML file into nginx public directory
+# Copy your HTML file into the Nginx web root
 COPY index.html /usr/share/nginx/html/index.html
 
-# Expose port 80 and run nginx
+# Optional: remove default index if needed
+RUN rm -f /usr/share/nginx/html/index.nginx-debian.html || true
+
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx server
+CMD ["nginx", "-g", "daemon off;"]
